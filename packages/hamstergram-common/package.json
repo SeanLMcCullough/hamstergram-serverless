@@ -1,0 +1,20 @@
+{
+  "name": "hamstergram-common",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Shared data models for Hamstergram",
+  "author": "Sean McCullough <sean@seanmccullough.info>",
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}
