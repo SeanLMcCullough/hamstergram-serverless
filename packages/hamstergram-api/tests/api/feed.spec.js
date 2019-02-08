@@ -3,10 +3,11 @@ describe("feed", () => {
     request
       .get("/v1/feed")
       .set('Accept', 'application/json')
+      .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
-        expect(res.body.items).to.be.an("array")
-        expect(res.body.totalItems).to.be.an("number")
+        expect(res.body.data.items).to.be.an("array")
+        expect(res.body.data.totalItems).to.be.an("number")
         done()
       })
   })

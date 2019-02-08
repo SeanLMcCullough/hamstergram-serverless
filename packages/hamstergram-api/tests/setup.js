@@ -9,3 +9,4 @@ global.expect = chai.expect
 global.app = container
 global.request = request(server.app)
 global.config = config
+global.logger = logger

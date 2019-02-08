@@ -9,7 +9,7 @@ const controller = require('./create-controller')
 const httpLogger = require('./middlewares/http-logger')
 const errorHandler = require('./middlewares/error-handler')
 
-module.exports = ({ config, logger }) => {
+module.exports = ({ config, logger, response: { Success, Fail } }) => {
   const router = Router()
 
   router.use(partialRight(errorHandler, [logger, config]))
@@ -25,16 +25,16 @@ module.exports = ({ config, logger }) => {
   router.get('/', (req, res) => {
     res
       .status(200)
-      .json({
+      .json(Success({
         healthy: true
-      })
+      }))
   })
 
   const apiRouter = Router()
 
   apiRouter
     .use(cors({
-      origin: ['http://localhost:3000'],
+      origin: config.http.cors,
       methods: ['POST'],
       allowedHeaders: ['Content-Type', 'Authorization']
     }))

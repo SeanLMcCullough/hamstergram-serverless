@@ -10,11 +10,11 @@ describe("post", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
-        expect(res.body).to.be.an("object")
-        expect(res.body.id).to.be.an("string").that.is.not.empty
-        expect(res.body.text).to.equal("Hello, Hamsters!")
-        expect(res.body.createdAt).to.be.an("string").that.is.not.empty
-        expect(res.body.updatedAt).to.be.an("string").that.is.not.empty
+        expect(res.body.data).to.be.an("object")
+        expect(res.body.data._id).to.be.an("string").that.is.not.empty
+        expect(res.body.data.text).to.equal("Hello, Hamsters!")
+        expect(res.body.data.createdAt).to.be.an("string").that.is.not.empty
+        expect(res.body.data.updatedAt).to.be.an("string").that.is.not.empty
         done()
       })
   })
