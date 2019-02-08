@@ -87,7 +87,7 @@ module.exports = ({ config, database }) => {
     authenticate: () => {
       return config.env === 'test'
         ? passport.authenticate('mock')
-        : passport.authenticate('google')
+        : passport.authenticate('google-token')
     }
   }
 }

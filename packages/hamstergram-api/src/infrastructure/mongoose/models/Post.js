@@ -4,6 +4,7 @@ const Like = require('./Like')
 
 const post = Object.assign(BaseModel, {
   text: String,
+  hamster: { type: Schema.Types.ObjectId, ref: 'Hamster', required: true },
   likes: [Like]
 })
 

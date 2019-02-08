@@ -3,7 +3,8 @@ const { compose } = require('ramda')
 const { clean } = require('../helpers')
 
 const Post = t.struct({
-  text: t.String
+  text: t.String,
+  hamster: t.Any
 })
 
 module.exports = compose(

@@ -22,7 +22,7 @@ module.exports = () => {
 
   router.put('/', async (req, res) => {
     try {
-      let result = await putUseCase.create({ body: req.body })
+      let result = await putUseCase.create({ body: req.body, user: req.user })
       res
         .status(Status.OK)
         .json(Success(result))
@@ -36,7 +36,7 @@ module.exports = () => {
 
   router.put('/:id/like', async (req, res) => {
     try {
-      let result = await putUseCase.like({ post: req.params.id })
+      let result = await putUseCase.like({ post: req.params.id, user: req.user })
       res
         .status(Status.OK)
         .json(Success(result))

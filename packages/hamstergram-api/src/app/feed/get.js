@@ -16,6 +16,7 @@ module.exports = ({ postRepository }) => {
           createdAt: -1
         }
       })
+      .populate('hamster')
 
     return items
   }
