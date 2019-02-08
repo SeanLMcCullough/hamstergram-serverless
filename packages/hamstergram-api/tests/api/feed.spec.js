@@ -47,4 +47,14 @@ describe("feed", () => {
           })
       })
   })
+
+  it("returns 10 posts by default", done => {
+    request
+      .get("/v1/feed")
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(res.body.data).to.have.lengthOf.below(11)
+        done()
+      })
+  })
 })

@@ -21,7 +21,7 @@ module.exports = () => {
   router.get('/', async (req, res) => {
     let data = await getUseCase.feed({
       lastId: req.query['last-id'],
-      pageSize: clamp(req.query['page-size'], 1, 25)
+      pageSize: clamp(Number(req.query['page-size']) || 10, 1, 25)
     })
     res
       .status(Status.OK)
