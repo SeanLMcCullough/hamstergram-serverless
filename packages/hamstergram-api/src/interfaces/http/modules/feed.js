@@ -9,7 +9,7 @@ const { get } = require('src/app/feed')
 
 module.exports = () => {
   const router = Router()
-  const { logger, database: { models }, response: { Success, Fail } } = container.cradle
+  const { logger, auth, database: { models }, response: { Success, Fail } } = container.cradle
 
   // Compose models against repositories to provide application use-cases
   const postModel = models.Post
@@ -17,6 +17,9 @@ module.exports = () => {
 
   // Build use cases for http verbs
   const getUseCase = get({ postRepository: postsUseCase })
+
+  // Enable auth
+  router.use(auth.authenticate())
 
   router.get('/', async (req, res) => {
     let data = await getUseCase.feed({

@@ -11,6 +11,7 @@ const server = require('./interfaces/http/server')
 const router = require('./interfaces/http/router')
 const database = require('./infrastructure/database')
 const response = require('./infrastructure/http/response')
+const auth = require('./interfaces/http/auth')
 
 const container = createContainer()
 
@@ -22,7 +23,8 @@ container
     server: asFunction(server).singleton(),
     router: asFunction(router).singleton(),
     database: asFunction(database).singleton(),
-    response: asFunction(response).singleton()
+    response: asFunction(response).singleton(),
+    auth: asFunction(auth).singleton()
   })
 
 module.exports = container

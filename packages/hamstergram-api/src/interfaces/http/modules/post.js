@@ -8,7 +8,7 @@ const { put } = require('src/app/post')
 
 module.exports = () => {
   const router = Router()
-  const { logger, database: { models }, response: { Success, Fail } } = container.cradle
+  const { logger, auth, database: { models }, response: { Success, Fail } } = container.cradle
 
   // Compose models against repositories to provide application use-cases
   const postModel = models.Post
@@ -16,6 +16,9 @@ module.exports = () => {
 
   // Build use cases for http verbs
   const putUseCase = put({ postRepository: postsUseCase })
+
+  // Enable auth
+  router.use(auth.authenticate())
 
   router.put('/', async (req, res) => {
     try {

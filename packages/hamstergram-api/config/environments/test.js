@@ -13,5 +13,9 @@ module.exports = {
   },
   http: {
     cors: (process.env.CORS || '').split(',')
+  },
+  googleAuth: {
+    clientId: null,
+    clientSecret: null
   }
 }
