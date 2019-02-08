@@ -7,6 +7,10 @@ describe("feed", () => {
       .expect('Content-Type', /json/)
       .end((err, res) => {
         expect(res.body.data).to.be.an("array")
+        res.body.data.forEach(o => {
+          expect(o).to.be.an("Object")
+          expect(o.likes).to.be.an("Array")
+        })
         done()
       })
   })

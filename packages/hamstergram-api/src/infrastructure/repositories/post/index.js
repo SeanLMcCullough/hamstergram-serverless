@@ -7,6 +7,8 @@ module.exports = (Post) => {
 
   const find = async (...args) => Post.find(...args)
 
+  const findById = async (...args) => Post.findById(...args)
+
   const save = async (item) => {
     let post = new Post(item)
     return post.save()
@@ -15,6 +17,7 @@ module.exports = (Post) => {
   return {
     count,
     find,
+    findById,
     save
   }
 }

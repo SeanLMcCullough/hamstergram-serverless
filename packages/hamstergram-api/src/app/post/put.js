@@ -1,7 +1,7 @@
 const { Post } = require('src/domain/post')
 const { Like } = require('src/domain/like')
 
-module.exports = ({ postRepository, likeRepository }) => {
+module.exports = ({ postRepository }) => {
 
   const create = async ({ body }) => {
     const post = new Post(body)
@@ -10,8 +10,10 @@ module.exports = ({ postRepository, likeRepository }) => {
 
   // Likes a post with the provided post (id)
   const like = async ({ post }) => {
+    const targetPost = await postRepository.findById(post)
     const like = new Like({ post })
-    return likeRepository.save(like)
+    targetPost.likes.push(like)
+    return targetPost.save()
   }
 
   return {

@@ -4,7 +4,6 @@ const { compose } = require('ramda')
 
 const container = require('src/container')
 const postRepository = require('src/infrastructure/repositories/post')
-const likeRepository = require('src/infrastructure/repositories/like')
 const { put } = require('src/app/post')
 
 module.exports = () => {
@@ -15,14 +14,8 @@ module.exports = () => {
   const postModel = models.Post
   const postsUseCase = compose(postRepository)(postModel)
 
-  const likeModel = models.Like
-  const likesUseCase = compose(likeRepository)(likeModel)
-
   // Build use cases for http verbs
-  const putUseCase = put({
-    postRepository: postsUseCase,
-    likeRepository: likesUseCase
-  })
+  const putUseCase = put({ postRepository: postsUseCase })
 
   router.put('/', async (req, res) => {
     try {
