@@ -2,16 +2,14 @@
   <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
+        <span>Hamstergram</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
+        @click="signIn()"
       >
-        <span class="mr-2">Latest Release</span>
+        <span class="mr-2">Sign in</span>
         <v-icon>open_in_new</v-icon>
       </v-btn>
     </v-toolbar>
@@ -26,9 +24,24 @@
 
 export default {
   name: 'App',
+
   data () {
     return {
-      //
+      errorMessage: null,
+      showError: false
+    }
+  },
+
+  methods: {
+    async signIn() {
+      try {
+        let googleUser = await this.$gAuth.signIn()
+        console.log(googleUser)
+      } catch (e) {
+        console.error(e)
+        this.errorMessage = e.message
+        this.showError = true
+      }
     }
   }
 }
