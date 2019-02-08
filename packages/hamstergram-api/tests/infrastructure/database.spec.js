@@ -10,6 +10,7 @@ describe("database", () => {
   it("loads models", done => {
     expect(db.models).to.be.an('Object')
     expect(db.models.Post).to.be.an('Function')
+    expect(db.models.Like).to.be.an('Function')
     done()
   })
 

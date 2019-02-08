@@ -29,7 +29,7 @@ describe("post", () => {
       })
       .end((err, res) => {
         request
-          .post(`/v1/post/${res.body.id}/like`)
+          .put(`/v1/post/${res.body.data._id}/like`)
           .set('Accept', 'application/json')
           .expect(200)
           .expect('Content-Type', /json/, done)
