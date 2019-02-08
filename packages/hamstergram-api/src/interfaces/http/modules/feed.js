@@ -1,6 +1,7 @@
 const Status = require('http-status')
 const { Router } = require('express')
 const { compose } = require('ramda')
+const { clamp } = require('lodash')
 
 const container = require('src/container')
 const postRepository = require('src/infrastructure/repositories/post')
@@ -18,20 +19,13 @@ module.exports = () => {
   const getUseCase = get({ postRepository: postsUseCase })
 
   router.get('/', async (req, res) => {
-    try {
-      let data = await getUseCase.feed({ offset: req.offset })
-      res
-        .status(Status.OK)
-        .json(Success({
-          items: data,
-          totalItems: 0
-        }))
-    } catch (e) {
-      logger.error(e)
-      res
-        .status(Status.INTERNAL_SERVER_ERROR)
-        .json(Fail(e.message))
-    }
+    let data = await getUseCase.feed({
+      lastId: req.query['last-id'],
+      pageSize: clamp(req.query['page-size'], 1, 25)
+    })
+    res
+      .status(Status.OK)
+      .json(Success(data))
   })
 
   return router

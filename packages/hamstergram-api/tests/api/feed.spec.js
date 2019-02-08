@@ -6,9 +6,41 @@ describe("feed", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
-        expect(res.body.data.items).to.be.an("array")
-        expect(res.body.data.totalItems).to.be.an("number")
+        expect(res.body.data).to.be.an("array")
         done()
+      })
+  })
+
+  it("paginates", done => {
+    request
+      .get("/v1/feed?page-size=2")
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(res.body.data.length).to.be.below(3)
+        request
+          .get(`/v1/feed?page-size=1`)
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            expect(res.body.data.length).to.be.below(2)
+            done()
+          })
+      })
+  })
+
+  it("resumes from last id", done => {
+    request
+      .get("/v1/feed?page-size=1")
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        const last = res.body.data.pop()._id
+        request
+          .get(`/v1/feed?page-size=1&last-id=${last}`)
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            const current = res.body.data.pop()._id
+            expect(current).to.not.equal(last)
+            done()
+          })
       })
   })
 })
