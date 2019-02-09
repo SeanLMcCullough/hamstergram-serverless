@@ -1,7 +1,7 @@
 {
   "name": "hamstergram-common",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "description": "Shared data models for Hamstergram",
   "author": "Sean McCullough <sean@seanmccullough.info>",
   "homepage": "",
