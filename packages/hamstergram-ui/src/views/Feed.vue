@@ -1,40 +1,43 @@
 <template>
   <v-container>
     <v-layout
-      text-xs-center
       wrap
       v-if="isAuthenticated"
     >
       <v-flex xs12 md10 offset-md-1>
-        <v-card>
-          <v-card-title primary-title>
-            <div>
-              <h3 class="headline mb-0">Squeak about something</h3>
-              <post-form />
-            </div>
-          </v-card-title>
-          <v-card-actions>
-            <v-btn flat color="primary">Post</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
+        <v-layout row wrap>
+          <v-flex xs12>
+            <v-card>
+              <v-card-title primary-title>
+                <div>
+                  <h3 class="headline mb-0">Squeak about something</h3>
+                </div>
+              </v-card-title>
+              <v-card-text>
+                <post-form v-bind.sync="newPost" @submit="post" :submitting="posting"/>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
 
-      <v-flex xs12 md10 offset-md-1 class="mt-5">
-        <v-card>
-          <v-card-text>
+        <v-layout row wrap>
+          <v-flex xs12>
             <v-alert type="error" dismissible v-model="showError">
               {{ errorMessage || 'An unknown error occurred. Please try again.' }}
             </v-alert>
 
-            <post-list :posts="posts" v-show="posts.length" />
-            <p v-if="!posts.length">Start the discussion by posting a squeak</p>
-          </v-card-text>
-          <v-card-actions class="justify-center">
+            <v-alert type="info" :value="!posts.length && !loading">
+              Start the discussion by posting a squeak
+            </v-alert>
+
+            <post class="mt-1" v-for="post of posts" :key="post._id" :post="post"/>
+
             <v-btn flat fab color="primary" @click="fetchPosts" :loading="loading">
-              <v-icon>refresh</v-icon>
+              <v-icon>expand_more</v-icon>
             </v-btn>
-          </v-card-actions>
-        </v-card>
+
+          </v-flex>
+        </v-layout>
       </v-flex>
     </v-layout>
 
@@ -50,22 +53,29 @@
 import { mapGetters } from 'vuex'
 import { stringify } from 'query-string'
 import PostForm from '@/components/PostForm'
-import PostList from '@/components/PostList'
+import Post from '@/components/Post'
 
 export default {
   name: 'Feed',
 
   components: {
     PostForm,
-    PostList
+    Post
   },
 
   data() {
     return {
       posts: [],
       loading: false,
+      posting: false,
       errorMessage: null,
-      showError: false
+      showError: false,
+      newPost: {
+        text: ' '
+      },
+      defaultPost: {
+        text: ' '
+      }
     }
   },
 
@@ -85,6 +95,7 @@ export default {
 
   methods: {
     async fetchPosts() {
+      if (!this.isAuthenticated) return
       this.resetError()
       this.loading = true
 
@@ -114,10 +125,40 @@ export default {
       this.loading = false
     },
 
+    async post() {
+      if (!this.isAuthenticated) return
+      this.resetError()
+      this.posting = true
+
+      try {
+        let response = await fetch(process.env.VUE_APP_API_URL + `post`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'access_token': this.accessToken
+          },
+          body: JSON.stringify(this.newPost)
+        })
+
+        let { data } = await response.json()
+        this.posts.unshift(data)
+      } catch (e) {
+        this.showError = true
+        this.errorMessage = e.message
+      }
+
+      this.newPost = Object.assign({}, this.defaultPost)
+      this.posting = false
+    },
+
     resetError() {
       this.errorMessage = null
       this.showError = false
-    }
+    },
+  },
+
+  created() {
+    this.fetchPosts()
   }
 }
 </script>

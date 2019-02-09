@@ -15,8 +15,7 @@ export default new Vuex.Store({
   ],
 
   state: {
-    auth: null,
-    feed: []
+    auth: null
   },
 
   getters: {
@@ -37,6 +36,9 @@ export default new Vuex.Store({
       return isAuthenticated
         ? state.auth.authResponse.access_token
         : null
+    },
+    hamsterId(state) {
+      return null //TODO
     }
   },
 
