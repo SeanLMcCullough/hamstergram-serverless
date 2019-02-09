@@ -59,6 +59,7 @@ export default {
             basicProfile,
             isSignedIn
           })
+          this.$store.dispatch('FETCH_ME')
         }
       } catch (e) {
         console.error(e)

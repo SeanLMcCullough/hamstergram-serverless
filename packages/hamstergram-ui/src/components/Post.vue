@@ -41,7 +41,7 @@ export default {
     },
     isLiked() {
       return this.liked ||
-        this.post.likes.some(like => like.hamster._id === this.hamsterId)
+        this.post.likes.some(like => like.hamster === this.hamsterId)
     }
   },
 

@@ -15,7 +15,8 @@ export default new Vuex.Store({
   ],
 
   state: {
-    auth: null
+    auth: null,
+    me: null
   },
 
   getters: {
@@ -37,14 +38,18 @@ export default new Vuex.Store({
         ? state.auth.authResponse.access_token
         : null
     },
-    hamsterId(state) {
-      return null //TODO
+    hamsterId(state, { me }) {
+      return me._id
+    },
+    me(state) {
+      return state.me || {}
     }
   },
 
   mutations: {
     FLUSH_AUTH(state) {
       state.auth = null
+      state.me = null
     },
     SIGN_IN(state, { authResponse, basicProfile, isSignedIn }) {
       state.auth = {
@@ -52,12 +57,26 @@ export default new Vuex.Store({
         basicProfile,
         isSignedIn
       }
+    },
+    SET_ME(state, hamster) {
+      state.me = hamster
     }
   },
 
   actions: {
-    signOut({ commit }) {
-      commit('setAuth', null)
+    async FETCH_ME({ commit, getters }) {
+      try {
+        let response = await fetch(process.env.VUE_APP_API_URL + 'me', {
+          headers: {
+            'access_token': getters.accessToken
+          }
+        })
+        let { data } = await response.json()
+
+        commit('SET_ME', data)
+      } catch(e) {
+        console.error(e)
+      }
     }
   }
 })

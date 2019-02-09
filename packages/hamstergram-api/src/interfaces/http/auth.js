@@ -15,7 +15,7 @@ module.exports = ({ config, database }) => {
     let hamster = await hamstersUseCase.findOne({
       providerId: profile.id,
       provider: profile.provider,
-      active: true
+      isActive: true
     })
 
     if (hamster) return hamster;

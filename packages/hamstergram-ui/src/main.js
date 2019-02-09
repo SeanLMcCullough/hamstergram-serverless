@@ -15,6 +15,11 @@ Vue.use(GAuth, {
   prompt: 'select_account'
 })
 
+// Load hamster account on load if authenticated
+if (store.getters.isAuthenticated) {
+  store.dispatch('FETCH_ME')
+}
+
 new Vue({
   router,
   store,

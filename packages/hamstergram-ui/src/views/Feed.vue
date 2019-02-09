@@ -4,7 +4,7 @@
       wrap
       v-if="isAuthenticated"
     >
-      <v-flex xs12 md10 offset-md-1>
+      <v-flex xs12 md10 lg8 offset-md1 offset-lg2>
         <v-layout row wrap>
           <v-flex xs12>
             <v-card>
@@ -31,11 +31,14 @@
             </v-alert>
 
             <post class="mt-1" v-for="post of posts" :key="post._id" :post="post"/>
+          </v-flex>
+        </v-layout>
 
+        <v-layout row wrap>
+          <v-flex xs12 text-xs-center>
             <v-btn flat fab color="primary" @click="fetchPosts" :loading="loading">
               <v-icon>expand_more</v-icon>
             </v-btn>
-
           </v-flex>
         </v-layout>
       </v-flex>
