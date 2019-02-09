@@ -52,6 +52,7 @@ module.exports = ({ config, logger, response: { Success, Fail } }) => {
 
   apiRouter.use('/feed', controller('feed'))
   apiRouter.use('/post', controller('post'))
+  apiRouter.use('/me', controller('me'))
 
   return router
 }
