@@ -48,6 +48,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { stringify } from 'query-string'
 import PostForm from '@/components/PostForm'
 import PostList from '@/components/PostList'
 
@@ -88,14 +89,22 @@ export default {
       this.loading = true
 
       try {
-        let res = await fetch(process.env.VUE_APP_API_URL + 'feed', {
+        let lastId
+        if (this.posts.length) {
+          lastId = this.posts[this.posts.length-1]._id
+        }
+        let qs = stringify({ 'last-id': lastId })
+
+        let response = await fetch(process.env.VUE_APP_API_URL + `feed?${qs}`, {
           headers: {
             'access_token': this.accessToken
           }
         })
-        console.log(res)
+
         let { data } = await response.json()
-        console.log(data)
+        if (data && data.length) {
+          this.posts = this.posts.concat(data)
+        }
       } catch (e) {
         console.error(e)
         this.showError = true
