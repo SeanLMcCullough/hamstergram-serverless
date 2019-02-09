@@ -7,10 +7,17 @@
       <v-spacer></v-spacer>
       <v-btn
         flat
-        @click="signIn()"
+        v-if="!isAuthenticated"
+        @click="signIn"
       >
         <span class="mr-2">Sign in</span>
-        <v-icon>open_in_new</v-icon>
+      </v-btn>
+      <v-btn
+        flat
+        v-else
+        @click="signOut"
+      >
+        <span class="mr-2">Sign out</span>
       </v-btn>
     </v-toolbar>
 
@@ -21,6 +28,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -32,16 +40,41 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters(['isAuthenticated', 'profile'])
+  },
+
   methods: {
     async signIn() {
       try {
+        this.resetError()
+        this.$store.commit('FLUSH_AUTH')
         let googleUser = await this.$gAuth.signIn()
-        console.log(googleUser)
+        let isSignedIn = googleUser.isSignedIn()
+        if (isSignedIn) {
+          let authResponse = googleUser.getAuthResponse()
+          let basicProfile = googleUser.getBasicProfile()
+          this.$store.commit('SIGN_IN', {
+            authResponse,
+            basicProfile,
+            isSignedIn
+          })
+        }
       } catch (e) {
         console.error(e)
         this.errorMessage = e.message
         this.showError = true
       }
+    },
+
+    signOut() {
+      this.$gAuth.signOut()
+      this.$store.commit('FLUSH_AUTH')
+    },
+
+    resetError() {
+      this.errorMessage = null
+      this.showError = false
     }
   }
 }
