@@ -1,20 +1,24 @@
 # Hamstergram
 
+Social networking, but with hamsters.
+
 ## Table of Contents
 
 - [Overview](#overview)
 - [User Stores](#user-stories)
 - [implementation](#implementation)
 - [Installation](#installation)
-- [Usage](#usage)
+- [TODO](#todo)
 
 ## Overview
 
-This is an implementation of the [Adepto coding challenge (1)](https://bitbucket.org/adeptians/adepto-code-challenge/src/master/) to produce a basic social platform for Hamsters using a 3rd party authentication.
+Hamstergram is a basic small CRUD application demonstrating very basic social media functionality.
+It implements a few functionalities but nothing too complex. Posting text and liking posts is about its limits for now.
 
+Hamstergram is built on a JAMstack, using a dockerable Node.JS back-end API with minimal configuration,
+and a Vue.JS front-end which can be hosted in a static bucket.
 
-
-## User Stores
+## User Stories
 
 1. As a hamster, I want to sign up to a platform so I can connect with other the hamsters on the network
 2. As a social hamster, I want to be able to share posts with hamsters in the network
@@ -34,7 +38,13 @@ For this implementation, I picked the following stack:
 - AWS S3 for the static website
 
 ## Installation
-TODO
+```bash
+lerna bootstrap
+```
 
-## Usage
-TODO
+## TODO
+
+- Limit hamsters from liking more than once at the API
+- Add profile images
+- Add post deletion
+- Add ability to unlike posts
