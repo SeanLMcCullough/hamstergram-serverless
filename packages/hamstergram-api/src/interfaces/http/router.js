@@ -9,7 +9,7 @@ const controller = require('./create-controller')
 const httpLogger = require('./middlewares/http-logger')
 const errorHandler = require('./middlewares/error-handler')
 
-module.exports = ({ config, logger }) => {
+module.exports = ({ config, logger, response: { Success, Fail } }) => {
   const router = Router()
 
   router.use(partialRight(errorHandler, [logger, config]))
@@ -25,18 +25,24 @@ module.exports = ({ config, logger }) => {
   router.get('/', (req, res) => {
     res
       .status(200)
-      .json({
+      .json(Success({
         healthy: true
-      })
+      }))
   })
 
   const apiRouter = Router()
 
   apiRouter
     .use(cors({
-      origin: ['http://localhost:3000'],
-      methods: ['POST'],
-      allowedHeaders: ['Content-Type', 'Authorization']
+      origin(origin, callback) {
+        if (!origin || config.http.cors.includes(origin)) {
+          callback(null, true)
+          return
+        }
+        callback(new Error('Origin blocked by CORS'))
+      },
+      methods: ['GET', 'PUT'],
+      allowedHeaders: ['Content-Type', 'access_token']
     }))
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))
@@ -46,6 +52,7 @@ module.exports = ({ config, logger }) => {
 
   apiRouter.use('/feed', controller('feed'))
   apiRouter.use('/post', controller('post'))
+  apiRouter.use('/me', controller('me'))
 
   return router
 }

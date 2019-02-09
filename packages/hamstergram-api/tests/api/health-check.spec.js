@@ -3,9 +3,10 @@ describe("healthcheck", () => {
     request
       .get("/")
       .set('Accept', 'application/json')
+      .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
-        expect(res.body.healthy).to.equal(true)
+        expect(res.body.data.healthy).to.equal(true)
         done()
       })
 
