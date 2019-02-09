@@ -7,7 +7,7 @@ module.exports = {
     colorize: false
   },
   database: {
-    uri: process.env.DATABASE_URI_DEV,
+    uri: process.env.DATABASE_URI_DEV || 'mongodb://localhost:27017/hamstergram',
     username: process.env.DATABASE_USERNAME_DEV,
     password: process.env.DATABASE_PASSWORD_DEV
   },
