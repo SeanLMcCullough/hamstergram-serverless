@@ -15,6 +15,7 @@ describe("post", () => {
         expect(res.body.data.text).to.equal("Hello, Hamsters!")
         expect(res.body.data.createdAt).to.be.an("string").that.is.not.empty
         expect(res.body.data.updatedAt).to.be.an("string").that.is.not.empty
+        expect(res.body.data.hamster).to.be.an("object")
         done()
       })
   })

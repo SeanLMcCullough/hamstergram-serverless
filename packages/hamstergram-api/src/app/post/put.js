@@ -7,7 +7,10 @@ module.exports = ({ postRepository }) => {
     const post = new Post(Object.assign(body, {
       hamster: user._id
     }))
-    return postRepository.save(post)
+    const doc = await postRepository.save(post)
+    return doc
+      .populate('hamster')
+      .execPopulate()
   }
 
   // Likes a post with the provided post (id)
