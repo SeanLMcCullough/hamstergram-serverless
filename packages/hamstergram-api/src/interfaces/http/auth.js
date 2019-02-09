@@ -11,6 +11,7 @@ module.exports = ({ config, database }) => {
   const hamstersUseCase = compose(hamsterRepository)(hamsterModel)
 
   const mapToHamster = async (profile) => {
+
     let hamster = await hamstersUseCase.findOne({
       providerId: profile.id,
       provider: profile.provider,
@@ -35,7 +36,10 @@ module.exports = ({ config, database }) => {
       user: {
         id: 'test',
         provider: 'system',
-        name: 'John Smith',
+        name: {
+          givenName: 'John',
+          familyName: 'Smith'
+        },
         displayName: 'John Smith',
         birthday: null,
         relationship: null,

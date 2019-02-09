@@ -34,9 +34,15 @@ module.exports = ({ config, logger, response: { Success, Fail } }) => {
 
   apiRouter
     .use(cors({
-      origin: config.http.cors,
-      methods: ['POST'],
-      allowedHeaders: ['Content-Type', 'Authorization']
+      origin(origin, callback) {
+        if (!origin || config.http.cors.includes(origin)) {
+          callback(null, true)
+          return
+        }
+        callback(new Error('Origin blocked by CORS'))
+      },
+      methods: ['GET', 'PUT'],
+      allowedHeaders: ['Content-Type', 'access_token']
     }))
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))

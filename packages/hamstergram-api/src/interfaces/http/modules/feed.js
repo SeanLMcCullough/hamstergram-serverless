@@ -22,13 +22,20 @@ module.exports = () => {
   router.use(auth.authenticate())
 
   router.get('/', async (req, res) => {
-    let data = await getUseCase.feed({
-      lastId: req.query['last-id'],
-      pageSize: clamp(Number(req.query['page-size']) || 10, 1, 25)
-    })
-    res
-      .status(Status.OK)
-      .json(Success(data))
+    try {
+      let data = await getUseCase.feed({
+        lastId: req.query['last-id'],
+        pageSize: clamp(Number(req.query['page-size']) || 10, 1, 25)
+      })
+      res
+        .status(Status.OK)
+        .json(Success(data))
+    } catch (e) {
+      logger.error(e)
+      res
+        .status(Status.BAD_REQUEST)
+        .json(Fail(e.message))
+    }
   })
 
   return router

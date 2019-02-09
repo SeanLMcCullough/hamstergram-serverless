@@ -48,6 +48,13 @@ describe("feed", () => {
       })
   })
 
+  it("rejects invalid last id", done => {
+    request
+      .get("/v1/feed?last-id=asdf")
+      .set('Accept', 'application/json')
+      .expect(400, done)
+  })
+
   it("returns 10 posts by default", done => {
     request
       .get("/v1/feed")

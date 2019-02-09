@@ -1,6 +1,10 @@
+const { Types } = require('mongoose')
+
 module.exports = ({ postRepository }) => {
 
   const feed = async ({ lastId, pageSize = 10 }) => {
+    lastId = Types.ObjectId(lastId)
+
     let conditions = Object.assign({
       isActive: true,
     }, lastId && {

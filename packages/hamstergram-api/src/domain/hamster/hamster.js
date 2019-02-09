@@ -5,7 +5,7 @@ const { clean } = require('../helpers')
 const Hamster = t.struct({
   providerId: t.String,
   provider: t.String,
-  name: t.String,
+  name: t.Object,
   displayName: t.maybe(t.String)
 })
 

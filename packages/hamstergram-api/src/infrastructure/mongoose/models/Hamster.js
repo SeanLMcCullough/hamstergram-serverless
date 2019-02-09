@@ -4,7 +4,10 @@ const BaseModel = require('./BaseModel')
 const hamster = Object.assign(BaseModel, {
   providerId: String,
   provider: String,
-  name: String,
+  name: {
+    givenName: String,
+    familyName: String
+  },
   displayName: String
 })
 
