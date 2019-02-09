@@ -1,7 +1,7 @@
 {
   "name": "hamstergram-api",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Hamstergram Node.JS API",
   "author": "Sean McCullough <sean@seanmccullough.info>",
   "homepage": "",
