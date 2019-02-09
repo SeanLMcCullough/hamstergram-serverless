@@ -48,3 +48,4 @@ lerna bootstrap
 - Add profile images
 - Add post deletion
 - Add ability to unlike posts
+- Configure CI/CD
