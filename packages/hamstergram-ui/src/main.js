@@ -2,6 +2,7 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import GAuth from 'vue-google-oauth2'
+import VueAnalytics from 'vue-analytics'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -14,6 +15,12 @@ Vue.use(GAuth, {
   scope: 'profile email',
   prompt: 'select_account'
 })
+
+if (process.env.VUE_APP_GOOGLE_ANALYTICS_ID) {
+  Vue.use(VueAnalytics, {
+    id: process.env.VUE_APP_GOOGLE_ANALYTICS_ID
+  })
+}
 
 // Load hamster account on load if authenticated
 if (store.getters.isAuthenticated) {
