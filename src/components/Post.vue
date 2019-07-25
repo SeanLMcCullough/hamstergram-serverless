@@ -21,8 +21,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'Post',
 
@@ -37,31 +35,17 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['accessToken', 'hamsterId']),
     likes() {
       return this.post.likes.length + (this.liked ? 1 : 0)
     },
     isLiked() {
-      return this.liked ||
-        this.post.likes.some(like => like.hamster === this.hamsterId)
+      return false
     }
   },
 
   methods: {
     async like() {
-      if (this.isLiked) return; // Only like once
-      this.liked = true
-      try {
-        await fetch(process.env.VUE_APP_API_URL + `post/${this.post._id}/like`, {
-          method: 'PUT',
-          headers: {
-            'access_token': this.accessToken
-          }
-        })
-      } catch (e) {
-        console.error(e)
-        this.liked = false
-      }
+
     }
   }
 }
