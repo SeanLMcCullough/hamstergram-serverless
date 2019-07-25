@@ -1,6 +1,6 @@
 {
-  "name": "hamstergram-ui",
-  "short_name": "hamstergram-ui",
+  "name": "Hamstergram",
+  "short_name": "Hamstergram",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
